@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.css" type="text/css" />
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.6.min.js"></script>
+    <title>Dumb Parser</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Dumb Parser</a>
+        </div>
+    </div>
+</nav>
+<textarea id=dumb_text rows="10" cols="50" placeholder="Put your text here">
+</textarea>
+<br>
+<textarea id=parsed_text rows="10" cols="50" placeholder="Parsed text shows here">
+</textarea>
+<br>
+<div id=parse_button class="btn btn-default">Parse Text<div>
+
+<script type="text/javascript">
+$("#parse_button").click(function() {
+    var lines = $("#dumb_text").val().split("\n");
+    var index = 0;
+    var entries = [];
+    var key = "";
+    var value = "";
+    while (index < lines.length) {
+        line = lines[index];
+        var start = line.includes("{");
+        if(start) {
+            key = line.split(" ")[0];
+        }
+        var is_value = line.includes("unitDescriptor=");
+        if (is_value) {
+            value = line.split("\"")[1];
+            entries.push(key + "," + value +"\n");
+        }
+        index++;
+    }
+    var total_answer = "";
+    index = 0;
+    while (index < entries.length) {
+        total_answer += entries[index]
+        index++;
+    }
+    $("#parsed_text").val(total_answer);
+});
+</script>
+</body>
+</html>
