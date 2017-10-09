@@ -13,7 +13,7 @@ def main(fin, fout_name):
             key = line.split(' ')[0]
         is_value = line.find("unitDescriptor=")
         if is_value != -1:
-            value = line.split"\"")[1]
+            value = line.split("\"")[1]
             entries.append("%s,%s\n" % (key, value))
         index += 1
     answer = "".join(entries)
